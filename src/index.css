@@ -39,5 +39,6 @@
   }
   .dropdown:hover .dropdown__list {
     opacity: 1;
+    pointer-events: visible;
   }
 }
