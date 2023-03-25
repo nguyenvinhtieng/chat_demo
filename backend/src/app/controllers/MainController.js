@@ -22,7 +22,7 @@ class MainController {
 
     async sendMessage(req, res, next) {
         try {
-            let { sender_email, receiver_email, content } = req.body;  
+            let { sender_email, receiver_email, content, createdAt } = req.body;  
             let receiver = await User.findOne({ email: receiver_email });
             let sender = await User.findOne({ email: sender_email });
             if (!receiver) {
@@ -38,20 +38,21 @@ class MainController {
                         { user1: receiver._id, user2: sender._id }
                     ]
                 }
-            );
+            ).populate('user1').populate('user2');
             if (!chatThread) {
                 chatThread = new ChatThread({ user1: sender._id, user2: receiver._id, lastMessage: content, lastMessageTime: Date.now() });
                 await chatThread.save();
+                chatThread = await ChatThread.findById(chatThread._id).populate('user1').populate('user2');
             }
 
-            let chatContent = new ChatContent({ sender: sender._id, receiver: receiver._id, content });
-            await chatContent.save();
+            let chatContent = new ChatContent({ sender: sender._id, receiver: receiver._id, content, createdAt });
+            await chatContent.save()
 
             chatThread.lastMessage = content;
-            chatThread.lastMessageTime = Date.now();
+            chatThread.lastMessageTime = createdAt;
             await chatThread.save();
-
-            return res.json({ status: true, message: "Send message successfully" , data: chatContent , chatThread});
+            let dataChat = await ChatContent.findOne({_id: chatContent._id}).populate('sender').populate('receiver')
+            return res.json({ status: true, message: "Send message successfully" , data: dataChat , chatThread});
 
         }catch(err) {
             return res.json({status: false, message: "Server Internal Error"});
@@ -103,8 +104,8 @@ class MainController {
     async getUser(req, res, next) {
         try {
             let { email } = req.body;
-            let userFind = await User.find({ email });
-            return res.json({ status: true, message: "Get user successfully", user: userFind });
+            let userFind = await User.find({email: {$regex : email}})
+            return res.json({ status: true, message: "Get user successfully", users: userFind });
         }catch(err) {
             return res.json({status: false, message: "Server Internal Error"});
         }

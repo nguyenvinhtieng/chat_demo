@@ -6,6 +6,7 @@ const ChatThread = new Schema({
     user2: { type: String, required: true, ref: 'User' },
     lastMessage: { type: String, required: true },
     lastMessageTime: { type: Date, default: Date.now },
+    isRead: {type: Boolean, default: true}
 });
 
 module.exports = mongoose.model('ChatThread', ChatThread);

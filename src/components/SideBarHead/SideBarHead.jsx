@@ -31,7 +31,7 @@ export default function SideBarHead() {
       <div className='flex items-center cursor-pointer w-full'>
         <img className='w-10 h-10 rounded-full object-cover' src={user.photoURL} alt='avatar'/>
         <h1 className='ml-2 flex-1'>Hello { user.displayName }</h1>
-        <div className="dropdown min-w-[30px] flex justify-center relative ">
+        <div className="dropdown min-w-[30px] flex justify-center relative z-50">
           <BsThreeDotsVertical></BsThreeDotsVertical>
           <div className="dropdown__list absolute top-[110%] right-0 text-[12px] py-1 bg-gray-100 rounded-md opacity-0 pointer-events-none">
             <div className="px-4 hover:bg-blue-50 py-2 flex items-center">

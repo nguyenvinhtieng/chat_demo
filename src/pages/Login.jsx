@@ -3,24 +3,24 @@ import { signInWithPopup } from "firebase/auth"
 import { auth, provider } from "../config/firebase"
 import { useContext } from "react";
 import { GlobalState } from "../context";
-
+import axios from "axios";
+import { BACKEND_URL } from "../constant";
 
 export default function Login() {
   const state = useContext(GlobalState);
-  const signIn = () => {
-    signInWithPopup(auth, provider)
-      .then(result => {
-        let dataUser = {
-          uid: result.user.uid,
-          displayName: result.user.displayName,
-          email: result.user.email,
-          photoURL: result.user.photoURL,
-        }
-        state.userAPI.userData[1](dataUser)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const signIn = async () => {
+    try {
+      let result = await signInWithPopup(auth, provider)
+      let dataUser = {
+        displayName: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL,
+      }
+      state.userAPI.userData[1](dataUser)
+      await axios.post(BACKEND_URL + "/login", dataUser)
+    }catch(err) {
+      console.log(err)
+    }
   }
 
   return (
