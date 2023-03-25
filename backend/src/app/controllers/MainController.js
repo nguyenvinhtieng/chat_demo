@@ -99,6 +99,16 @@ class MainController {
             return res.json({status: false, message: "Server Internal Error"});
         }
     }
+
+    async getUser(req, res, next) {
+        try {
+            let { email } = req.body;
+            let userFind = await User.find({ email });
+            return res.json({ status: true, message: "Get user successfully", user: userFind });
+        }catch(err) {
+            return res.json({status: false, message: "Server Internal Error"});
+        }
+    }
 }
 
 module.exports = new MainController();
