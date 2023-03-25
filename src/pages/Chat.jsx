@@ -4,7 +4,7 @@ import ChatContent from '../components/ChatContent'
 import ChatSidebar from '../components/ChatSidebar'
 import { BACKEND_URL } from '../constant'
 import { GlobalState } from '../context'
-
+import socket from '../socket'
 export default function Chat() {
   const state = useContext(GlobalState);
   const [user, _ ] = state.userAPI.userData;
@@ -27,6 +27,13 @@ export default function Chat() {
       })
   }, [])
 
+  useEffect(()=> {
+    console.log("runn");
+    socket.connect();
+    socket.on('connect', ()=> {
+      console.log("connect")
+    });
+  }, [])
   return (
     <div className="w-full h-[100vh] fixed inset-0 flex">
       <ChatSidebar 

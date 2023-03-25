@@ -5,7 +5,6 @@ import { GlobalState } from '../../context';
 import ChatContentCurrentUser from '../ChatContentCurrentUser';
 import ChatContentInput from '../ChatContentInput';
 import ChatContentMessage from '../ChatContentMessage';
-
 export default function ChatContent({currentUser, chatThreads, setChatThreads}) {
   
   let [messages, setMessages] = useState([])
