@@ -34,10 +34,10 @@ export default function SideBarHead() {
         <div className="dropdown min-w-[30px] flex justify-center relative z-50">
           <BsThreeDotsVertical></BsThreeDotsVertical>
           <div className="dropdown__list absolute top-[110%] right-0 text-[12px] py-1 bg-gray-100 rounded-md opacity-0 pointer-events-none">
-            <div className="px-4 hover:bg-blue-50 py-2 flex items-center">
+            <a className="px-4 hover:bg-blue-50 py-2 flex items-center" href="https://www.facebook.com/nvinhtieng/" target="_blank">
               <span className='mr-2'>Facebook</span>
               <FaFacebookF></FaFacebookF>
-            </div>
+            </a>
             <div className="px-4 hover:bg-red-50 py-2 flex items-center" onClick={logOut}>
               <span className='mr-2'>Logout</span>
               <IoLogOutOutline></IoLogOutOutline>

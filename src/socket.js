@@ -1,5 +1,5 @@
-import { io } from 'socket.io-client';
+import socketIO from 'socket.io-client';
 import { BACKEND_URL_SOCKET } from './constant';
 const URL = BACKEND_URL_SOCKET;
-let socket = io(URL)
+let socket = socketIO.connect(URL)
 export default socket

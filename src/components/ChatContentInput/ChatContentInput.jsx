@@ -3,10 +3,11 @@ import { useContext, useRef } from "react";
 import { BACKEND_URL } from "../../constant";
 import { GlobalState } from "../../context";
 
-export default function ChatContentInput({currentUser, setMessages, chatThreads, setChatThreads}) {
+export default function ChatContentInput({currentUser, setMessages, chatThreads, setChatThreads, socket}) {
     const inputRef = useRef(null)
     const state = useContext(GlobalState);
     const [user, _ ] = state.userAPI.userData;
+
     const sendMessage = async () => {
         let val = inputRef.current.value
         if(!val) return
@@ -30,6 +31,9 @@ export default function ChatContentInput({currentUser, setMessages, chatThreads,
 
         inputRef.current.value = ""
         inputRef.current.focus()
+        if(user.email != currentUser.email) {
+          socket.emit("send-message", {user: currentUser, data: data})
+        }
     }
 
   return (
@@ -40,7 +44,7 @@ export default function ChatContentInput({currentUser, setMessages, chatThreads,
         ref={inputRef}
         placeholder="Type a message..."
       />
-      <button onClick={sendMessage} className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+      <button onClick={sendMessage} className="flex items-center justify-center min-w-[40px] w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
         <svg
           className="w-5 h-5 text-white"
           fill="none"

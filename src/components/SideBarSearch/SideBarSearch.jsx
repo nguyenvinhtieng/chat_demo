@@ -5,7 +5,7 @@ import useDebounce from '../../hooks/useDebounce'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 import Loading from '../Loading'
 
-export default function SideBarSearch({setCurrentUser}) {
+export default function SideBarSearch({setCurrentUser, setTabActive}) {
     let [input, setInput] = useState('')
     let [result, setResult] = useState([])
     let [showResult, setShowResult] = useState(false)
@@ -18,6 +18,7 @@ export default function SideBarSearch({setCurrentUser}) {
     const clickUserHandler = (user) => {
         setShowResult(false)
         setCurrentUser(user)
+        setTabActive(2)
     }
     const fetchResult = async () => {
         if(!debouncedValue || loading) return;
@@ -41,7 +42,7 @@ export default function SideBarSearch({setCurrentUser}) {
                 <input type="text" className="w-[90%] h-[40px] bg-gray-100 rounded-full outline-none" placeholder="Search user by email" onChange={handleInputChange}/>
             </div>
             {showResult && 
-                <div className='absolute top-[110%] left-0 right-0 bg-slate-100 shadow-xl'>
+                <div className='absolute top-[110%] left-0 right-0 bg-slate-100 shadow-xl z-30'>
                     <div className='justify-center py-3'>
                         {loading && <Loading />}
                         {!loading && result.length == 0 && <p className='text-black-300 text-center'>No result</p>}
