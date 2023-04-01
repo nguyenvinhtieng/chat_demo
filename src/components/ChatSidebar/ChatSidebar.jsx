@@ -11,6 +11,16 @@ export default function ChatSidebar({setCurrentUser, chatThreads, currentUser, i
   if(chatThreads.length > 0) {
     chatThreads = chatThreads.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime))
   }
+
+  // remove 
+  let chatThreadsTemp = []
+  chatThreads.forEach(thread => {
+    let isExists = chatThreadsTemp.filter(t => t._id == thread._id)
+    if(isExists.length == 0) {
+      chatThreadsTemp.push(thread)
+    }
+  })
+  chatThreads = chatThreadsTemp
   
   return (
     <aside className={`w-[300px] min-w-[300px] relative border-r-2 border-gray-200 flex flex-col sidebar ${isActive ? "is-active" : ""}`}>
